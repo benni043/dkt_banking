@@ -1,6 +1,12 @@
 export const useGameStore = defineStore("game", {
-  state: (): { sse: EventSource | undefined } => ({
+  state: (): {
+    sse: EventSource | undefined;
+    gameId: string | undefined;
+    playerId: string | undefined;
+  } => ({
     sse: undefined,
+    gameId: undefined,
+    playerId: undefined,
   }),
   actions: {
     reset() {
