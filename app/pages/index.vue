@@ -1,9 +1,19 @@
 <script setup lang="ts">
-	const x = ref("test");
+async function createGame() {
+    const response = await $fetch(`/api/game`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+    });
+
+    console.log(response);
+}
 </script>
 
 <template>
-	<div>
-		<h1 class="text-red-600">{{ x }}</h1>
-	</div>
+    <div>
+        <button>create game</button>
+    </div>
 </template>
