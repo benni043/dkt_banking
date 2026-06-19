@@ -1,13 +1,13 @@
 import type { EventStream } from "h3";
 
-const todosEventStreams: Map<string, EventStream[]> = new Map();
+const gameEventStreams: Map<string, EventStream[]> = new Map();
 
 export const GameEventStream = {
-  addStream(userId: string, eventStream: EventStream) {
-    addEventStream(userId, todosEventStreams, eventStream);
+  addStream(gameId: string, eventStream: EventStream) {
+    addEventStream(gameId, gameEventStreams, eventStream);
   },
-  async sendUpdate(userId: string) {
-    await publish(userId, todosEventStreams, await Game.getAll(userId));
+  async sendUpdate(gameId: string) {
+    await publish(gameId, gameEventStreams, { msg: "nachricht an alle" });
   },
 };
 
