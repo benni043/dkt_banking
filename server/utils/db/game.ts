@@ -16,6 +16,16 @@ export const GameClass = {
     const game: Game = {
       uuid: crypto.randomUUID(),
       status: "waiting",
+      avaliableColors: [
+        "dark_blue",
+        "light_blue",
+        "dark_yellow",
+        "light_yellow",
+        "pink",
+        "red",
+        "orange",
+        "green",
+      ],
       availableHouses: 32,
       availableHotels: 8,
       players: [],
@@ -40,6 +50,7 @@ export const GameClass = {
       throw new Error("Game is already running");
     }
 
+    // todo: assign a color to the player
     const player: Player = {
       uuid: crypto.randomUUID(),
       color: "red",
