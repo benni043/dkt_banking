@@ -1,37 +1,51 @@
 <script setup lang="ts">
-const gameStore = useGameStore();
+	const gameStore = useGameStore();
 
-async function createGame() {
-    const response: { gameId: string } = await $fetch(`/api/game/create`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-    });
-}
+	async function createGame() {
+		const response = await $fetch<string>(`/api/game/create`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({}),
+		});
 
-async function joinGame() {
-    const gameId = 2;
+		console.log(response);
+	}
 
-    const response: { playerId: string } = await $fetch(
-        `/api/game/${gameId}/join`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}),
-        },
-    );
+	async function joinGame() {
+		const gameId = prompt("Enter game UUID: ");
 
-    gameStore.playerId = response.playerId;
-}
+		if (!gameId || gameId.trim() === "") {
+			alert("Aktion abgebrochen: Es wurde keine Game-UUID eingegeben.");
+			return;
+		}
+
+		try {
+			const response = await $fetch<string>(`/api/game/${gameId}/join`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({}),
+			});
+
+			gameStore.playerId = response;
+
+			console.log(response);
+
+			navigateTo(`/game/${gameId}`);
+		} catch (error) {
+			alert(
+				"Fehler: " + (error instanceof Error ? error.message : String(error)),
+			);
+		}
+	}
 </script>
 
 <template>
-    <div>
-        <button type="button" @click="createGame">create game</button>
-        <button type="button" @click="joinGame">join game</button>
-    </div>
+	<div>
+		<button type="button" @click="createGame">create game</button>
+		<button type="button" @click="joinGame">join game</button>
+	</div>
 </template>
