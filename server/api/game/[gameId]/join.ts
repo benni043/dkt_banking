@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
 		throw createError({
 			statusCode: 500,
-			message: "Ein unbekannter Fehler ist aufgetreten.",
+			message: "unknown error occurred.",
 		});
 	}
 });

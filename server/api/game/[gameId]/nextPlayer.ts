@@ -10,21 +10,16 @@ export default defineEventHandler(async (event) => {
 	}
 
 	try {
-		GameClass.start(gameId);
-		const game = GameClass.get(gameId);
+		const nextPlayerIdx = GameClass.nextPlayer(gameId);
 
-		GameEventStream.sendUpdate(gameId, { game: game });
+		GameEventStream.sendUpdate(gameId, { nextPlayerIdx: nextPlayerIdx });
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.message === "Game not found") {
 				throw createError({ statusCode: 404, message: error.message });
 			}
 
-			if (error.message === "Game is already running") {
-				throw createError({ statusCode: 400, message: error.message });
-			}
-
-			if (error.message === "Not enough players to start the game") {
+			if (error.message === "Game is not running") {
 				throw createError({ statusCode: 400, message: error.message });
 			}
 		}
